@@ -57,5 +57,27 @@ git pull
 - Submit the final version of your project as per website guidelines.
 - Include a brief write-up of your implemented features and any challenges faced.
 
+## Setup Google Maps API Key
+
+### Replace the Google Maps API Key:
+
+1. Open the popup.js file in a code editor (e.g., VS Code).
+2. Find the line containing:
+   ```js
+   const apiKey = "YOUR_API_KEY";
+   ```
+3. Replace "YOUR_API_KEY" with your own Google Maps API Key.
+   Example:
+   ```js
+   const apiKey = "AIzaSy12345EXAMPLE";
+   ```
+
+### If you don't have a Google Maps API Key yet:
+
+1. Go to the Google Cloud Console.
+2. Create or select a project.
+3. Navigate to APIs & Services > Credentials and click Create Credentials.
+4. Select API Key, copy the generated key, and replace the placeholder in popup.js.
+
 ---
 Happy coding, and good luck with Lunch Lotto! 🍀
