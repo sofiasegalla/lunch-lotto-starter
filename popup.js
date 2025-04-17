@@ -1,5 +1,6 @@
 const apiKey = "AIzaSyBH1iyAsfazgJa7UQC6cgulZCfKibTf3Fg";
 const defaultSettings = {
+  rating: 2,
   distance: 0.5,       // Default search radius in miles
   price: "2,3",        // Google Places API uses 1-4 ($ - $$$$)
   dietary: "",         // Empty means no filter (future: vegetarian, gluten-free, etc.)
@@ -48,7 +49,11 @@ async function fetchRestaurants() {
           lng: place.geometry.location.lng,
           placeId: place.place_id,
           googleMapsLink: `https://www.google.com/maps/place/?q=place_id:${place.place_id}`, // Add Google Maps link
+          rating: place.rating || "N/A",
         }));
+
+        // Filter reastaurants by rating
+        restaurants = restaurants.filter((r) => r.rating >= settings.minRating);
   
         // ✅ Remove duplicate restaurant names
         const seen = new Set();
@@ -146,23 +151,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   const settings = await loadSettings();
   document.getElementById("distance").value = settings.distance;
   document.getElementById("price").value = settings.price;
+  document.getElementById("min-rating").value = settings.minRating;
 
   // Save settings
   document.getElementById("save-settings").addEventListener("click", async () => {
     const distance = parseFloat(document.getElementById("distance").value);
     const price = document.getElementById("price").value;
+    const minRating = parseFloat(document.getElementById("min-rating").value);
   
     // Save the updated settings
-    chrome.storage.sync.set({ distance, price }, async () => {
+    chrome.storage.sync.set({ distance, price, minRating }, async () => {
       swal({
         title: `Settings saved!`,
         icon: "success",
-        button: false, // Hide the default OK button
+        button: false,
       });
-  
-      // Hide the settings view and fetch new restaurants
       hideSettings();
-      await fetchRestaurants(); // Fetch restaurants with the new settings
+      await fetchRestaurants(); // Refetch with new filters
     });
   });  
 });

@@ -34,28 +34,36 @@
       </button>
     </div>
 
-    <!-- Settings View -->
-    <div id="settings-view" class="view">
-      <div class="form-group">
-        <label for="distance">Distance (miles) 🗺️</label>
-        <input type="number" id="distance" min="0.1" max="10" step="0.1" placeholder="e.g., 0.5">
-      </div>
-      <div class="form-group">
-        <label for="price">Price Level 💰</label>
-        <select id="price">
-          <option value="1,2">$ - $$</option>
-          <option value="2,3" selected>$$ - $$$</option>
-          <option value="3,4">$$$ - $$$$</option>
-        </select>
-      </div>
-      <button id="save-settings">Save</button>
-      <button id="close-settings">Back</button>
+  <!-- Settings View -->
+  <div id="settings-view" class="view">
+    <div class="form-group">
+      <label for="distance">Distance (miles) 🗺️</label>
+      <input type="number" id="distance" min="0.1" max="10" step="0.1" placeholder="e.g., 0.5">
     </div>
-  </div>
 
-  <script src="libs/sweetalert.min.js"></script>
-  <script src="wheel.js"></script>
-  <script src="popup.js"></script>
+    <div class="form-group">
+      <label for="price">Price Level 💰</label>
+      <select id="price">
+        <option value="1,2">$ - $$</option>
+        <option value="2,3" selected>$$ - $$$</option>
+        <option value="3,4">$$$ - $$$$</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="min-rating">Minimum Rating ⭐</label>
+      <select id="min-rating">
+        <option value="0">Any</option>
+        <option value="3">3.0+</option>
+        <option value="3.5">3.5+</option>
+        <option value="4">4.0+</option>
+        <option value="4.5">4.5+</option>
+      </select>
+    </div>
+
+    <button id="save-settings">Save</button>
+    <button id="close-settings">Back</button>
+  </div>
 
 </body>
 
