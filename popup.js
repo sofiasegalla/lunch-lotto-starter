@@ -1,6 +1,6 @@
 const apiKey = "AIzaSyBH1iyAsfazgJa7UQC6cgulZCfKibTf3Fg";
 const defaultSettings = {
-  rating: 2,
+  minRating: 0,
   distance: 0.5,       // Default search radius in miles
   price: "2,3",        // Google Places API uses 1-4 ($ - $$$$)
   dietary: "",         // Empty means no filter (future: vegetarian, gluten-free, etc.)
@@ -52,8 +52,7 @@ async function fetchRestaurants() {
           rating: place.rating || "N/A",
         }));
 
-        // Filter reastaurants by rating
-        restaurants = restaurants.filter((r) => r.rating >= settings.minRating);
+        // restaurants = restaurants.filter((r) => (r.rating || 0) >= settings.minRating);
   
         // ✅ Remove duplicate restaurant names
         const seen = new Set();
@@ -164,10 +163,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       swal({
         title: `Settings saved!`,
         icon: "success",
-        button: false,
+        button: false, // Hide the default OK button
       });
+  
+      // Hide the settings view and fetch new restaurants
       hideSettings();
-      await fetchRestaurants(); // Refetch with new filters
+      await fetchRestaurants(); // Fetch restaurants with the new settings
     });
   });  
 });
