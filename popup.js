@@ -122,6 +122,20 @@ async function fetchRestaurants() {
     drawWheel();
   }  
 
+  // function saveToHistory(restaurant) {
+  //   if (!restaurant) return;
+  
+  //   chrome.storage.local.get({ restaurantHistory: [] }, (result) => {
+  //     const history = result.restaurantHistory;
+  //     history.push({
+  //       name: restaurant.name,
+  //       googleMapsLink: restaurant.googleMapsLink,
+  //       timestamp: new Date().toISOString()
+  //     });
+  //     chrome.storage.local.set({ restaurantHistory: history });
+  //   });
+  // }
+
 // 🛠️ Toggle Settings View
 function showSettings() {
   document.getElementById("main-view").style.display = "none";
@@ -145,6 +159,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Close settings view
   document.getElementById("close-settings").addEventListener("click", hideSettings);
+
 
   // Load saved settings into inputs
   const settings = await loadSettings();
@@ -171,4 +186,31 @@ document.addEventListener("DOMContentLoaded", async () => {
       await fetchRestaurants(); // Fetch restaurants with the new settings
     });
   });  
+
+  document.getElementById("view-history").addEventListener("click", () => {
+    chrome.storage.local.get({ restaurantHistory: [] }, (result) => {
+      const history = result.restaurantHistory;
+      const list = document.getElementById("history-list");
+      list.innerHTML = "";
+
+      if (history.length === 0) {
+        list.innerHTML = "<li>No history yet.</li>";
+      } else {
+        history.slice(-10).reverse().forEach(entry => {
+          const item = document.createElement("li");
+          item.innerHTML = `<a href="${entry.googleMapsLink}" target="_blank">${entry.name}</a> <span style="font-size: 0.8em; color: #666;">(${new Date(entry.timestamp).toLocaleString()})</span>`;
+          list.appendChild(item);
+        });
+      }
+
+      document.getElementById("main-view").style.display = "none";
+      document.getElementById("history-container").style.display = "block";
+    });
+  });
+
+  // Close history
+  document.getElementById("close-history").addEventListener("click", () => {
+    document.getElementById("history-container").style.display = "none";
+    document.getElementById("main-view").style.display = "block";
+  });
 });

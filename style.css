@@ -135,7 +135,7 @@ html, body {
   margin: 0 auto 20px;
 }
 
-background-color:rgb(61, 69, 119);
+background-color: rgb(61, 69, 119);
   
 /* 🎡 Ensure `wheel-container` is positioned relative */
 #wheel-container {
@@ -175,3 +175,37 @@ background-color:rgb(61, 69, 119);
 .swal-title {
   font-size: 18px !important; /* Customize the title text size */
 }
+
+#history-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  width: 90%;
+  max-height: 60%;
+  overflow-y: auto;
+  box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+  z-index: 5;
+  text-align: left;
+}
+
+#history-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+#history-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+#history-list a {
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: bold;
+}
+

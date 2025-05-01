@@ -11,6 +11,20 @@ let spinAngleStart = 0;
 let spinTime = 0;
 let spinTimeTotal = 0;
 
+function saveToHistory(restaurant) {
+  if (!restaurant) return;
+
+  chrome.storage.local.get({ restaurantHistory: [] }, (result) => {
+    const history = result.restaurantHistory;
+    history.push({
+      name: restaurant.name,
+      googleMapsLink: restaurant.googleMapsLink,
+      timestamp: new Date().toISOString()
+    });
+    chrome.storage.local.set({ restaurantHistory: history });
+  });
+}
+
 function scaleCanvas(canvas, ctx) {
     const pixelRatio = window.devicePixelRatio || 1;
   
@@ -199,6 +213,8 @@ function truncateOption(option) {
         icon: "success",
         button: false, // Hide the default OK button
       });
+
+      saveToHistory(selectedOption);
       
       return;
     }
@@ -221,6 +237,13 @@ function spin() {
   spinTime = 0;
   spinTimeTotal = Math.random() * 3000 + 3000; // Spin duration between 3-6 seconds
   rotateWheel();
+
+  setTimeout(() => {
+    const degrees = (startAngle * 180) / Math.PI + 90;
+    const normalizedDegrees = degrees % 360;
+    const selectedIndex = Math.floor(normalizedDegrees / (360 / options.length));
+    const selectedOption = options[options.length - 1 - selectedIndex];
+  }, spinTimeTotal);
 }
 
 document.getElementById("spin").addEventListener("click", () => spin());
